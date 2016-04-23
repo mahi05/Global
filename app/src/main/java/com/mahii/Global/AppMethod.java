@@ -307,7 +307,18 @@ public class AppMethod {
     /* [END ENCODE AND DECODE] */
 
     /* START Show OK Dialog */
-    public static void showOkDialog(String title, String msg, Activity act) {
+    public static void showOkDialog(Context context, String messageText) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(messageText);
+        builder.setCancelable(true);
+        builder.setPositiveButton("OK", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+    /* END Show OK Dialog */
+
+    /* START Show OK Dialog With Message & Title */
+    public static void showOkDialogWithMessage(String title, String msg, Activity act) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(act);
         if (title != null) {
 
@@ -335,7 +346,7 @@ public class AppMethod {
         messageText.setGravity(Gravity.CENTER);
 
     }
-    /* END Show OK Dialog */
+    /* END Show OK Dialog With Message & Title */
 
     /* Upper Case of First Letter */
     public static String uppercaseFirstLetters(String str) {
