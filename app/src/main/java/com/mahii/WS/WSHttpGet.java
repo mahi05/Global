@@ -6,11 +6,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.shanks.easygov.interfaces.AsyncInterface;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+
+import com.mahii.interfaces.AsyncInterface;
 
 public class WSHttpGet extends AsyncTask<String, Void, String> {
 	ProgressDialog pDialog;

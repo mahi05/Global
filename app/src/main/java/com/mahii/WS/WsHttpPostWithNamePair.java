@@ -5,7 +5,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 
-import com.shanks.easygov.interfaces.AsyncInterface;
+import com.mahii.interfaces.AsyncInterface;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
