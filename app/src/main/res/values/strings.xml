@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Global</string>
+    <string name="message">Successfully copy to clipboard!</string>
+</resources>
