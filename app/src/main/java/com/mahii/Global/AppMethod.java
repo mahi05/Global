@@ -550,9 +550,8 @@ public class AppMethod {
         cal.add(Calendar.DATE, diff);
 
         SimpleDateFormat dateFormation = new SimpleDateFormat(dateFormat, Locale.getDefault());
-        String previousDate = dateFormation.format(cal.getTime());
 
-        return previousDate;
+        return dateFormation.format(cal.getTime());
     }
     /* END */
 
@@ -563,9 +562,8 @@ public class AppMethod {
         cal.add(Calendar.MONTH, diff);
 
         SimpleDateFormat dateFormation = new SimpleDateFormat(dateFormat, Locale.getDefault());
-        String previousMonth = dateFormation.format(cal.getTime());
 
-        return previousMonth;
+        return dateFormation.format(cal.getTime());
     }
     /* END */
 
