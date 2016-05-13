@@ -21,6 +21,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.Settings;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -37,6 +38,7 @@ import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -564,6 +566,138 @@ public class AppMethod {
         String previousMonth = dateFormation.format(cal.getTime());
 
         return previousMonth;
+    }
+    /* END */
+
+    /* Start open file */
+    public static void openFile(Activity activity, String filename) {
+
+        File openFile = new File(Environment.getExternalStorageDirectory()
+                + File.separator + "Test Saviour" + File.separator + filename);
+
+        Uri uri = Uri.fromFile(openFile);
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        if (openFile.toString().contains(".doc")
+                || openFile.toString().contains(".docx")) {
+            // Word document
+            intent.setDataAndType(uri, "application/msword");
+        } else if (openFile.toString().contains(".pdf")) {
+            // PDF file
+            intent.setDataAndType(uri, "application/pdf");
+        } else if (openFile.toString().contains(".ppt")
+                || openFile.toString().contains(".pptx")) {
+            // Powerpoint file
+            intent.setDataAndType(uri, "application/vnd.ms-powerpoint");
+        } else if (openFile.toString().contains(".xls")
+                || openFile.toString().contains(".xlsx")) {
+            // Excel file
+            intent.setDataAndType(uri, "application/vnd.ms-excel");
+        } else if (openFile.toString().contains(".zip")
+                || openFile.toString().contains(".rar")) {
+            // WAV audio file
+            intent.setDataAndType(uri, "application/zip");
+        } else if (openFile.toString().contains(".rtf")) {
+            // RTF file
+            intent.setDataAndType(uri, "application/rtf");
+        } else if (openFile.toString().contains(".wav")
+                || openFile.toString().contains(".mp3")) {
+            // WAV audio file
+            intent.setDataAndType(uri, "audio/x-wav");
+        } else if (openFile.toString().contains(".gif")) {
+            // GIF file
+            intent.setDataAndType(uri, "image/gif");
+        } else if (openFile.toString().contains(".jpg")
+                || openFile.toString().contains(".jpeg")
+                || openFile.toString().contains(".png")) {
+            // JPG file
+            intent.setDataAndType(uri, "image/jpeg");
+        } else if (openFile.toString().contains(".txt")) {
+            // Text file
+            intent.setDataAndType(uri, "text/plain");
+        } else if (openFile.toString().contains(".3gp")
+                || openFile.toString().contains(".mpg")
+                || openFile.toString().contains(".mpeg")
+                || openFile.toString().contains(".mpe")
+                || openFile.toString().contains(".mp4")
+                || openFile.toString().contains(".avi")) {
+            // Video files
+            intent.setDataAndType(uri, "video/*");
+        } else {
+            // if you want you can also define the intent type for any other
+            // file
+
+            // additionally use else clause below, to manage other unknown
+            // extensions
+            // in this case, Android will show all applications installed on the
+            // device
+            // so you can choose which application to use
+            intent.setDataAndType(uri, "*/*");
+        }
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.startActivity(intent);
+    }
+    /* END */
+
+    /* Start open file from Url */
+    public static void openFileFromURL(Activity activity, String url) {
+
+        Uri uri = Uri.parse(url);
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        if (url.contains(".doc")
+                || url.contains(".docx")) {
+            // Word document
+            intent.setDataAndType(uri, "application/msword");
+        } else if (url.contains(".pdf")) {
+            // PDF file
+            intent.setDataAndType(uri, "application/pdf");
+        } else if (url.contains(".ppt")
+                || url.contains(".pptx")) {
+            // Powerpoint file
+            intent.setDataAndType(uri, "application/vnd.ms-powerpoint");
+        } else if (url.contains(".xls")
+                || url.contains(".xlsx")) {
+            // Excel file
+            intent.setDataAndType(uri, "application/vnd.ms-excel");
+        } else if (url.contains(".zip")
+                || url.contains(".rar")) {
+            // WAV audio file
+            intent.setDataAndType(uri, "application/zip");
+        } else if (url.contains(".rtf")) {
+            // RTF file
+            intent.setDataAndType(uri, "application/rtf");
+        } else if (url.contains(".wav")
+                || url.contains(".mp3")
+                || url.contains(".m4a")) {
+            // WAV audio file
+            intent.setDataAndType(uri, "audio/x-wav");
+        } else if (url.contains(".gif")) {
+            // GIF file
+            intent.setDataAndType(uri, "image/gif");
+        } else if (url.contains(".jpg")
+                || url.contains(".jpeg")
+                || url.contains(".png")) {
+            // JPG file
+            intent.setDataAndType(uri, "image/jpeg");
+        } else if (url.contains(".txt")) {
+            // Text file
+            intent.setDataAndType(uri, "text/plain");
+        } else if (url.contains(".3gp")
+                || url.contains(".mpg")
+                || url.contains(".mpeg")
+                || url.contains(".mpe")
+                || url.contains(".mp4")
+                || url.contains(".avi")) {
+            // Video files
+            intent.setDataAndType(uri, "video/*");
+        } else {
+            intent.setDataAndType(uri, "*/*");
+        }
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.startActivity(intent);
     }
     /* END */
 
