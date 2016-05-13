@@ -40,7 +40,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -450,6 +456,114 @@ public class AppMethod {
         if (stripped1.endsWith(".0"))
             stripped1 = stripped1.substring(0, stripped1.length() - 2);
         return stripped1;
+    }
+    /* END */
+
+    /* Start Check if it is a first date */
+    public static boolean isFirstDate(Context context) {
+
+        Calendar c = Calendar.getInstance();
+        int date = c.get(Calendar.DATE);
+
+        if (date == 1) {
+
+            if (AppMethodSharedPref.getBooleanPreference(context, AppConstant.IS_TASK_UPDATED)) {
+                AppMethodSharedPref.setBooleanPreference(context, AppConstant.IS_NEW_MONTH, false);
+            } else {
+                AppMethodSharedPref.setBooleanPreference(context, AppConstant.IS_NEW_MONTH, true);
+            }
+
+        } else {
+            AppMethodSharedPref.setBooleanPreference(context, AppConstant.IS_NEW_MONTH, false);
+            AppMethodSharedPref.setBooleanPreference(context, AppConstant.IS_TASK_UPDATED, false);
+        }
+
+        if (AppMethodSharedPref.getBooleanPreference(context, AppConstant.IS_NEW_MONTH)) {
+            AppMethodSharedPref.setBooleanPreference(context, AppConstant.IS_TASK_UPDATED, true);
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+    /* END */
+
+    /* Start Send email */
+    public static Intent getSendEmailIntent(Context context, String email, String subject, String body, String attachment) {
+
+        Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+
+        try {
+
+            emailIntent.setClassName("com.google.android.gm", "com.google.android.gm.ComposeActivityGmail");
+
+            emailIntent.setType("text/html");
+
+            if (email != null)
+                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{email});
+
+            if (subject != null)
+                emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
+
+            if (body != null)
+                emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, body);
+
+            if (attachment != null)
+                emailIntent.putExtra(android.content.Intent.EXTRA_STREAM, Uri.parse(attachment));
+
+            return emailIntent;
+
+        } catch (Exception e) {
+
+            emailIntent.setType("text/html");
+
+            if (email != null)
+                emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{email});
+
+            if (subject != null)
+                emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
+                        subject);
+
+            if (body != null)
+                emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, body);
+
+            if (attachment != null)
+                emailIntent.putExtra(android.content.Intent.EXTRA_STREAM, Uri.parse(attachment));
+
+            return emailIntent;
+        }
+    }
+    /* END */
+
+    /* Start Get month name from the integer */
+    public static String getMonth(int month) {
+        return new DateFormatSymbols().getMonths()[month];
+    }
+    /* END */
+
+    /* Start Get date from the current date */
+    public static String getDateDiffFromCurrentDate(String dateFormat, int diff) {
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, diff);
+
+        SimpleDateFormat dateFormation = new SimpleDateFormat(dateFormat, Locale.getDefault());
+        String previousDate = dateFormation.format(cal.getTime());
+
+        return previousDate;
+    }
+    /* END */
+
+    /* Start Get month from the current month */
+    public static String getMonthDiffFromCurrentDate(String dateFormat, int diff) {
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, diff);
+
+        SimpleDateFormat dateFormation = new SimpleDateFormat(dateFormat, Locale.getDefault());
+        String previousMonth = dateFormation.format(cal.getTime());
+
+        return previousMonth;
     }
     /* END */
 

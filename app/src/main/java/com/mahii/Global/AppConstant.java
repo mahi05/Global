@@ -12,4 +12,8 @@ public class AppConstant {
     public static final String APP_DETAILS_PACKAGE_NAME = "com.android.settings";
     public static final String APP_DETAILS_CLASS_NAME = "com.android.settings.InstalledAppDetails";
 
+    /* Check First Date*/
+    public static String IS_NEW_MONTH = "is_new_month";
+    public static String IS_TASK_UPDATED = "is_task_updated";
+
 }
