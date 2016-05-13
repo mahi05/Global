@@ -569,7 +569,7 @@ public class AppMethod {
     }
     /* END */
 
-    /* Start open file */
+    /* Start open file from file name */
     public static void openFile(Activity activity, String filename) {
 
         File openFile = new File(Environment.getExternalStorageDirectory()
