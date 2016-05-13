@@ -36,6 +36,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -51,8 +54,14 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class AppMethod {
+
+    /* For Jackson */
+    static ObjectMapper mapper = null;
+    static Lock lock = new ReentrantLock();
 
     /* Make TextView UnderLined*/
     public static void makeTextUnderLined(String data, TextView view) {
@@ -93,6 +102,30 @@ public class AppMethod {
         } catch (Exception ignored) {
         }
     }
+
+    /* Start Jackson Library Mapper */
+    public static synchronized ObjectMapper getMapper() {
+
+        if (mapper != null) {
+            return mapper;
+        }
+        try {
+            lock.lock();
+            if (mapper == null) {
+                mapper = new ObjectMapper();
+                mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES,
+                        false);
+            }
+            lock.unlock();
+        } catch (Exception e) {
+            if (e != null)
+                Log.e("Mapper", "Mapper Initialization Failed. Exception :: "
+                        + e.getMessage());
+        }
+
+        return mapper;
+    }
+    /* END */
 
     /* Play Music File From Raw Directory in Media Player */
     public static MediaPlayer buildMediaPlayer(Context activity, int musicId) {
