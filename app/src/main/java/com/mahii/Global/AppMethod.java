@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -42,17 +43,17 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.channels.FileChannel;
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -731,5 +732,56 @@ public class AppMethod {
         activity.startActivity(intent);
     }
     /* END */
+
+    /* START */
+    /* Locks the device window in landscape mode */
+    public static void lockOrientationLandscape(Activity activity) {
+        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    }
+
+    /* Locks the device window in portrait mode */
+    public static void lockOrientationPortrait(Activity activity) {
+        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
+
+    /* Allows user to freely use portrait or landscape mode */
+    public static void unlockOrientation(Activity activity) {
+        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+    }
+    /* END */
+
+    /* START */
+    /* Create db file of sqLite data in external storage */
+    /* Requires WRITE_EXTERNAL_STORAGE in manifest */
+    public static void writeDbToSD(Context context) throws IOException {
+
+        String DB_PATH;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            DB_PATH = context.getFilesDir().getAbsolutePath().replace("files", "databases") + File.separator;
+        } else {
+            DB_PATH = context.getFilesDir().getPath() + context.getPackageName() + "/databases/";
+        }
+
+        File sd = Environment.getExternalStorageDirectory();
+
+        if (sd.canWrite()) {
+            String currentDBPath = "teezom.db";
+            String backupDBPath = "backupname.db";
+            File currentDB = new File(DB_PATH, currentDBPath);
+            File backupDB = new File(sd, backupDBPath);
+
+            if (currentDB.exists()) {
+                FileChannel src = new FileInputStream(currentDB).getChannel();
+                FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                dst.transferFrom(src, 0, src.size());
+                src.close();
+                dst.close();
+            }
+        }
+        /* END */
+
+
+    }
 
 }
