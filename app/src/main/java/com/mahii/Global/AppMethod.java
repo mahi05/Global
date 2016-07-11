@@ -779,9 +779,22 @@ public class AppMethod {
                 dst.close();
             }
         }
-        /* END */
-
-
     }
+    /* END */
+    
+    /* START Convert date-string into Date  */
+    public static Date dateFromString(String dateString, String dateFormat){
+
+        Date date = null;
+        SimpleDateFormat format = new SimpleDateFormat(dateFormat);
+        try {
+            date = format.parse(dateString);
+            System.out.println(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+    /* END */
 
 }
