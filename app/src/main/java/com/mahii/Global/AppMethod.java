@@ -803,5 +803,40 @@ public class AppMethod {
         return month;
     }
     /* END */
+    
+    /* START A small class that contain some static logic for setting up a random String of arbitrary length. */
+	public static class RandomString {
+        private static final char[] symbols = new char[36];
+        private static final Random random = new Random();
+
+        static {
+            for (int idx = 0; idx < 10; ++idx) {
+                symbols[idx] = (char) ('0' + idx);
+            }
+            for (int idx = 10; idx < 36; ++idx) {
+                symbols[idx] = (char) ('a' + idx - 10);
+            }
+        }
+
+        private RandomString() {
+        }
+
+        /**
+         * Generate an insecure random alpha-numeric String of the length given in the constructor. Used internally
+         * as an ID for separate HTTP requests to distinguish one from another when logging.
+         *
+         * @param length The length of the random String.
+         * @return The random String.
+         */
+        public static String getString(int length) {
+            char[] buf = new char[length];
+            for (int idx = 0; idx < buf.length; ++idx) {
+                buf[idx] = symbols[random.nextInt(symbols.length)];
+            }
+            return new String(buf);
+        }
+    }
+	/* To use :- Log.e("MaHi", RandomString.getString(5)); */
+	/* END */
 
 }
