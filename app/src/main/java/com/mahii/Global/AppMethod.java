@@ -790,5 +790,18 @@ public class AppMethod {
         return date;
     }
     /* END */
+    
+    /* START Display short month name from month no */
+    public static String formatMonth(String month) {
+        SimpleDateFormat monthParse = new SimpleDateFormat("MM");
+        SimpleDateFormat monthDisplay = new SimpleDateFormat("MMM");
+        try {
+            return monthDisplay.format(monthParse.parse(month));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return month;
+    }
+    /* END */
 
 }
