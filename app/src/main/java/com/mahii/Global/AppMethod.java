@@ -103,6 +103,14 @@ public class AppMethod {
         } catch (Exception ignored) {
         }
     }
+    
+    /* Start Full Screen Activity */
+    public static void setFullScreenActivity(Activity activity) {
+    	activity.getWindow()
+        	.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            	WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    }
+    /* END */
 
     /* Start Jackson Library Mapper */
     public static synchronized ObjectMapper getMapper() {
@@ -228,6 +236,18 @@ public class AppMethod {
         return (int) (TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, context.getResources().getDisplayMetrics()) + 0.5f);
     }
 
+    /* START short array to byte array */
+    public static byte[] short2byte(short[] sData) {
+	int shortArrsize = sData.length;
+	byte[] bytes = new byte[shortArrsize * 2];
+	for (int i = 0; i < shortArrsize; i++) {
+		bytes[i * 2] = (byte) (sData[i] & 0x00FF);
+		bytes[(i * 2) + 1] = (byte) (sData[i] >> 8);
+		sData[i] = 0;
+	}
+	return bytes;
+    }
+    /* END */
 
     /* To get more details about an exception that occurred in an application */
     private static String getExceptionDetails(Activity act, Exception e) {
