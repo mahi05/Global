@@ -367,7 +367,17 @@ public class AppMethod {
         return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }
     /* [END ENCODE AND DECODE] */
-
+    
+    /* [START ENCODE AND DECODE] */
+    public static String encodeString(String message) {
+    	return Base64.encodeToString(message.getBytes(), Base64.DEFAULT);
+    }
+    
+    public static String decodeString(String message) {
+    	return Arrays.toString(Base64.decode(message, Base64.DEFAULT));
+    }
+    /* [END ENCODE AND DECODE] */
+    
     /* START Show OK Dialog */
     public static void showOkDialog(Context context, String messageText) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
