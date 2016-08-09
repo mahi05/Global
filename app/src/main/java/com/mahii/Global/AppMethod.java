@@ -888,6 +888,12 @@ public class AppMethod {
 		}
 	}
 	/* END */
+	
+	/* START Gets random number in range */
+	public static int getRandomNumberInRange(int min, int max) {
+		return (min + (int) (Math.random() * ((max - min) + 1)));
+	}
+	/* END */
 
 	/*START Load hash map from file hash map */
 	public static HashMap<String, String> loadHashMapFromFile(Context context, String fileName) {
