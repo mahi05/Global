@@ -910,5 +910,38 @@ public class AppMethod {
 		}
 		return new HashMap<>(1);
 	}
+	/* END */
+	
+	/*START Load json from asset folder in android */
+	public JSONObject loadJSONFromAsset(Context context, String filename) {
+		
+		String json = null;
+		JSONObject jsonObject = null;
+		try {
+
+			InputStream is = context.getAssets().open(filename);
+
+			int size = is.available();
+
+			byte[] buffer = new byte[size];
+
+			final int read = is.read(buffer);
+			is.close();
+			if (read > 0) {
+				json = new String(buffer, "UTF-8");
+			}
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+
+		try {
+			jsonObject = new JSONObject(json);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return jsonObject;
+	}
+	/* END */
 
 }
