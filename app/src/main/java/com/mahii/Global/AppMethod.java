@@ -976,5 +976,21 @@ public class AppMethod {
 		return stringText;
 	}
 	/* END */
+	
+	/* START Get screen size int [ ] */
+	public static int[] getScreenSize(Activity activity) {
+		Point size = new Point();
+		WindowManager w = activity.getWindowManager();
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+			w.getDefaultDisplay().getSize(size);
+			return new int[] { size.x, size.y };
+		} else {
+			Display d = w.getDefaultDisplay();
+			//noinspection deprecation
+			return new int[] { d.getWidth(), d.getHeight() };
+		}
+	}
+	/* END */
 
 }
