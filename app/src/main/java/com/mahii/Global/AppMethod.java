@@ -965,5 +965,16 @@ public class AppMethod {
 		return false;
 	}
 	/* END */
+	
+	/* START Remove last char string */
+	public static String removeLastChar(String stringText, String endingChar) {
+		if (!stringText.equals("") && stringText != null) {
+			if (stringText.endsWith(endingChar)) {
+				stringText = stringText.substring(0, stringText.length() - 1);
+			}
+		}
+		return stringText;
+	}
+	/* END */
 
 }
