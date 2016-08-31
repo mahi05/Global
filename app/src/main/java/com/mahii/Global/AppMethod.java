@@ -992,5 +992,33 @@ public class AppMethod {
 		}
 	}
 	/* END */
+	
+	/** START
+	* Makes the first character of every word uppercase and the rest lowercase
+	* @param text The text to change
+	* @return String
+	*/
+	public static String toTitleCase(String text){
+		if(text.length() == 0){
+			return text;
+		}
+		String[] parts = text.split(" ");
+		String finalString = "";
+		for (String part : parts){
+			finalString = finalString + toProperCase(part) + " ";
+		}
+		return finalString;
+	}
+	
+	/**
+	* Makes first character uppercase - the rest lowercase
+	* @param text The text to change
+	* @return String
+	*/
+	public static String toProperCase(String text) {
+		return text.substring(0, 1).toUpperCase() +
+		text.substring(1).toLowerCase();
+	}
+	/* END */
 
 }
