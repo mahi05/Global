@@ -1020,5 +1020,25 @@ public class AppMethod {
 		text.substring(1).toLowerCase();
 	}
 	/* END */
+	
+	/**
+	* Returns the list of available notification sounds of the device
+	*/
+	public static ArrayList<String> getVibratePatterns(Activity curActivity) {
+		RingtoneManager manager = new RingtoneManager(curActivity);
+		manager.setType(RingtoneManager.TYPE_NOTIFICATION);
+		Cursor cursor = manager.getCursor();
+
+		ArrayList<String> list = new ArrayList<>();
+		while (cursor.moveToNext()) {
+			//  String id = cursor.getString(RingtoneManager.ID_COLUMN_INDEX);
+			//  String uri = cursor.getString(RingtoneManager.URI_COLUMN_INDEX);
+			String name = cursor.getString((RingtoneManager.TITLE_COLUMN_INDEX));
+			list.add(name);
+		}
+
+		return list;
+	}
+	/* END */
 
 }
