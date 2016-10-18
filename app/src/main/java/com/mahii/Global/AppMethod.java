@@ -1040,5 +1040,29 @@ public class AppMethod {
 		return list;
 	}
 	/* END */
+	
+	/*
+	 * Gets the available SD card free space or returns -1 if the SD card is not mounted.
+	 */
+	public static long getFreeDiskSpace() {
+
+		String status = Environment.getExternalStorageState();
+		long freeSpace = 0;
+		if (status.equals(Environment.MEDIA_MOUNTED)) {
+			try {
+				File path = Environment.getExternalStorageDirectory();
+				StatFs stat = new StatFs(path.getPath());
+				long blockSize = stat.getBlockSize();
+				long availableBlocks = stat.getAvailableBlocks();
+				freeSpace = availableBlocks * blockSize / 1024;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			return -1;
+		}
+		return (freeSpace);
+	}
+	/* END */
 
 }
