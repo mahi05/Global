@@ -1,5 +1,6 @@
 package webservice;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -19,17 +20,26 @@ public class NewCallService extends AsyncTask<String, Void, String> {
     Context context;
     Uri.Builder values;
     URL url;
+    boolean showDialog;
+    String dialogMessage;
     HttpURLConnection connection = null;
+    ProgressDialog progressDialog;
 
-    public NewCallService(Context context, Uri.Builder values, OnServiceCall OnServiceCall) {
+    public NewCallService(Context context, Uri.Builder values, boolean showDialog, String dialogMessage, OnServiceCall OnServiceCall) {
         this.context = context;
         this.OnServiceCall = OnServiceCall;
         this.values = values;
+        this.showDialog = showDialog;
+        this.dialogMessage = dialogMessage;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage(dialogMessage);
+        progressDialog.setCancelable(false);
+        if (showDialog) progressDialog.show();
     }
 
     @Override
@@ -67,12 +77,9 @@ public class NewCallService extends AsyncTask<String, Void, String> {
             return response.toString();
 
         } catch (Exception e) {
-
             e.printStackTrace();
             return null;
-
         } finally {
-
             if (connection != null) {
                 connection.disconnect();
             }
@@ -82,6 +89,7 @@ public class NewCallService extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
+        if (progressDialog.isShowing()) progressDialog.dismiss();
         OnServiceCall.onServiceCall(result);
     }
 
