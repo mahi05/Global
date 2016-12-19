@@ -1079,5 +1079,16 @@ public class AppMethod {
 		} 
 	}
 	/* END */
+	
+	/* START Add fade animation to imageview in miliseconds time */ 
+	public static void animate(View imageView, int durationMillis) {
+		if (imageView != null) {
+			AlphaAnimation fadeImage = new AlphaAnimation(0, 1);
+			fadeImage.setDuration(durationMillis);
+			fadeImage.setInterpolator(new DecelerateInterpolator());
+			imageView.startAnimation(fadeImage);
+		}
+	}
+	/* END */
 
 }
