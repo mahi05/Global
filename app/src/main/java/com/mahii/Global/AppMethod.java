@@ -1100,5 +1100,18 @@ public class AppMethod {
 			activity.getCurrentFocus().getWindowToken(), 0);
 	}
 	/* END */
+	
+	/* START check if app has defined permission or not */ 
+	public static boolean hasPermissions(Context context, String... permissions) {
+		if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+			for (String permission : permissions) {
+				if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	/* END */
 
 }
