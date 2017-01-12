@@ -1113,5 +1113,12 @@ public class AppMethod {
 		return true;
 	}
 	/* END */
+	
+	/* START convert url text into links in TextView */
+	public static void addLink(TextView textView) {
+		Linkify.addLinks(textView, Linkify.WEB_URLS);
+		textView.setMovementMethod(LinkMovementMethod.getInstance());
+	}
+	/* END */
 
 }
