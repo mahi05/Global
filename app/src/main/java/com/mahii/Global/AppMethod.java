@@ -1120,5 +1120,109 @@ public class AppMethod {
 		textView.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 	/* END */
+	
+	/* START save bitmap to file */
+	public static boolean saveBitmapToFile(File dir, String fileName, Bitmap bm,
+                                    Bitmap.CompressFormat format, int quality) {
+
+        File imageFile = new File(dir, fileName);
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(imageFile);
+
+            bm.compress(format, quality, fos);
+
+            fos.close();
+
+            return true;
+        } catch (IOException e) {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+	/* USE :-
+	Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.avatar_placeholder);
+	finalFile = new File(Environment.getExternalStorageDirectory() + File.separator + "drawable" + File.separator + "avatar.jpg");
+
+	boolean doSave = true;
+	if (!finalFile.exists()) doSave = finalFile.mkdirs();
+
+	if (doSave) {
+		AppMethodUtils.saveBitmapToFile(finalFile, "avatar.jpg", bitmap, Bitmap.CompressFormat.JPEG, 100);
+	} else {
+		pDialog.dismiss();
+		Toast.makeText(this, "There is some error occurred, please try again letter.", Toast.LENGTH_SHORT).show();
+		return;
+	}
+	*/
+	/* END */
+	
+	/* START convert url text into links in TextView */
+	public static void addLink(TextView textView) {
+		Linkify.addLinks(textView, Linkify.WEB_URLS);
+		textView.setMovementMethod(LinkMovementMethod.getInstance());
+	}
+	/* END */
+	
+	/* START Email pattern for validation - REGEX */
+	public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
+            "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.+-]+\\.[A-Za-z]{2,4}"
+    	);
+	/* END */
+	
+	/* START Extract youtube video id from video link */
+	public static String extractYTId(String ytUrl) {
+		String pattern = "(?<=watch\\?v=|/videos/|embed\\/)[^#\\&\\?]*";
+
+		Pattern compiledPattern = Pattern.compile(pattern);
+		Matcher matcher = compiledPattern.matcher(ytUrl);
+
+		if (matcher.find()) {
+		    return matcher.group();
+		}
+		return "";
+	}
+	/* END */
+	
+	/* START Animate a view from bottom to top */
+	public static void animateViewFromBottomToTop(final View view) {
+
+		view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+		    @Override
+		    public void onGlobalLayout() {
+
+			view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+			final int TRANSLATION_Y = view.getHeight();
+			view.setTranslationY(TRANSLATION_Y);
+			view.setVisibility(View.GONE);
+			view.animate()
+				.translationYBy(-TRANSLATION_Y)
+				.setDuration(500)
+				.setStartDelay(200)
+				.setListener(new AnimatorListenerAdapter() {
+				    @Override
+				    public void onAnimationStart(final Animator animation) {
+					view.setVisibility(View.VISIBLE);
+				    }
+				})
+				.start();
+		    }
+		});
+	}
+	/* END */
+
+	/* START Hide keyboard */
+	public static void hideKeyboardFrom(Context context, View view) {
+		InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+	}
+	/* END */
 
 }
